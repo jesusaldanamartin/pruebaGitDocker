@@ -1,12 +1,19 @@
-FROM amazoncorretto:21
+FROM amazoncorretto:21 as build
 
-WORKDIR /docker/
+WORKDIR /pruebaGitDcoker/
 
 COPY ./Main.java .
 
 RUN javac ./Main.java
 
-CMD [ "java", "Main" ]
+FROM  amazoncorretto:21 as execute
+
+WORKDIR /Prueba Git/
+
+COPY --from=build /pruebaGitDocker/Main.class 
+
+CMD ["java", "Main"]
+
 
 # sudo docker build -t java_test_1:latest .
 # sudo docker run -d prueba_java java_test_1:latest
